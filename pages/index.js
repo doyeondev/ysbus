@@ -170,10 +170,14 @@ export default function YongsanBus() {
               </div>
               <div className="mx-auto pt-8">
                 <p className="pb-2 text-xs font-semibold md:text-sm">
-                  * 하얏트호텔 → 남영 방향 용산03입니다. (경리단길 하행선 전용 시간표)
-                  {/* <br /> */}
+                  하얏트호텔 → 남영 방향 용산03입니다. (경리단길 하행선 전용 시간표)
+                  {/* <br />* 이 시간표는 용산03 공식 출발 시간표를 기준으로 제작되었습니다. */}
                 </p>
                 <TableSchedule upcomingBus={upcomingBus} />
+                <p className="pb-2 pt-2 text-right text-xs font-semibold md:text-sm">
+                  * 본 시간표는 용산03 출발 시간표를 기준으로 제작되었습니다
+                  <br /> * 운행 지연 등의 사유로 실제 도착시간에 차이가 있을 수 있습니다
+                </p>
               </div>
             </div>
           </div>
