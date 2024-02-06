@@ -197,7 +197,7 @@ function TableSchedule({ upcomingBus, screenSize }) {
         <thead>
           {stations.map((station, i) => {
             return (
-              <tr key={`row${i}`} className="text-[13px] hover:bg-slate-50 dark:hover:bg-slate-600 sm:text-sm md:text-base">
+              <tr key={`row${i}`} className="text-[14px] hover:bg-slate-50 dark:hover:bg-slate-600 sm:text-sm md:text-base">
                 {/* <td className="w-[25%] bg-white text-center font-bold dark:bg-slate-900 md:pl-10 md:pr-4 md:text-[15px]"> */}
                 <td className="md:px6 w-[22%] border bg-gray-50 text-center font-bold dark:bg-slate-900 md:w-[20%]">
                   {screenSize < 768 && station.str1 ? (
@@ -215,7 +215,7 @@ function TableSchedule({ upcomingBus, screenSize }) {
                 {upcomingBus.map((bus, i) => {
                   let busArrivalTime = addMinutes(new Date(bus), station.leadTime) // 다음 버스 출발시간 + 각 정류장까지 도달하는 시간(leadTime)을 더해줌
                   return (
-                    <td key={i} className={`md:px6 w-[26%] border px-1 py-2.5 text-center text-[13px] text-red-500 dark:text-rose-500 sm:text-sm md:w-[20%] md:text-base ${[3].includes(i) && screenSize < 768 && 'hidden'}`}>
+                    <td key={i} className={`md:px6 w-[26%] border px-1 py-2.5 text-center text-[14px] text-red-500 dark:text-rose-500 sm:text-sm md:w-[20%] md:text-base ${[3].includes(i) && screenSize < 768 && 'hidden'}`}>
                       {getTimeDiff(now, bus) + station.leadTime}분 뒤<br />
                       <p className="flex w-full place-content-center text-xs text-gray-500 dark:text-gray-300 sm:text-sm md:text-[15px]">
                         ({shortenTime(busArrivalTime)}
@@ -404,7 +404,7 @@ const yongsan = [
 
 /** 정류장 이름과 종점에서부터의 소요시간 */
 const stations = [
-  //   { name: '하얏트호텔', leadTime: 0 },
+  { name: '하얏트호텔(기점)', str1: '하얏트', str2: '기점출발', leadTime: 0 },
   { name: '필리핀대사관', str1: '필리핀', str2: '대사관', leadTime: 1 },
   { name: '가야랑앞', leadTime: 2 },
   { name: '디지텍고등학교', str1: '디지텍', str2: '고등학교', leadTime: 3, highlight: true },
