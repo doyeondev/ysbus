@@ -130,7 +130,7 @@ export default function YongsanBus() {
           <div className="flex h-screen flex-col">
             <div className="flex h-full w-full flex-col place-content-center items-center space-y-8 bg-[#1DB807] px-[10vw] pb-8 pt-16 dark:bg-slate-800">
               {/* <p className="mx-auto py-2 text-2xl font-semibold md:py-4 md:text-4xl">용산03 시간표</p> */}
-              <div className="rounded-md bg-[#E8F9E8] px-4 py-4">
+              <div className="mt-8 rounded-md bg-[#E8F9E8] px-4 py-4">
                 <Image alt="용산03" src="/icon/yongsan_light.svg" width={0} height={0} sizes="100vw" className="justify-cente w-[480px]" />
               </div>
               {/* <Image alt="용산03" src="/icon/yongsan_white.svg" width={0} height={0} sizes="100vw" className="w-[360px] justify-center" /> */}
