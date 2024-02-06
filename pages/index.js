@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react'
 import Head from 'next/head'
 import _ from 'lodash'
 import { formatDate } from 'utils/dateUtils'
+import Layout from '/components/layout'
 
 export default function Terms() {
   const [startTime, setStartTime] = useState(5) // 첫 버스가 출발하는 시간: 오전 5시
@@ -13,6 +14,8 @@ export default function Terms() {
   const [leftTime, setLeftTime] = useState({})
 
   useEffect(() => {
+    localStorage.theme = 'light'
+
     const timeTable = []
     const timeStringList = []
     let timeHolder = []
@@ -110,43 +113,44 @@ export default function Terms() {
 
   return (
     <>
-      <Head>
-        <title>용산03 경리단길</title>
-        <meta className="description" content="용산03 경리단길" />
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
-      <div className="w-full">
-        <div className="flex flex-col">
-          <div className="flex h-full w-full flex-col place-content-center items-center space-y-8 bg-green-100 px-[10vw] py-12">
-            <p className="mx-auto py-2 text-2xl font-semibold sm:py-4 sm:text-4xl">용산03 시간표</p>
-            <main className="mx-auto flex w-full flex-col place-content-center items-center pt-2 text-base sm:pt-4 sm:text-2xl">
-              <div className="flex w-fit place-content-center items-center pb-8 text-xl sm:text-3xl">
-                <p className="font-semibold text-blue-600">현재시간 &nbsp; {currentTime}</p>
-              </div>
-              <div className="flex place-content-center items-center space-x-6 sm:space-x-16">
-                {/* <div className="flex w-fit flex-col place-content-center items-center">
+      <Layout>
+        <Head>
+          <title>용산03 경리단길</title>
+          <meta className="description" content="용산03 경리단길" />
+          <link rel="icon" href="/favicon.ico" />
+        </Head>
+        <div className="w-full">
+          <div className="flex flex-col">
+            <div className="flex h-full w-full flex-col place-content-center items-center space-y-8 bg-green-100 px-[10vw] py-12 dark:bg-[#1DB807]">
+              <p className="mx-auto py-2 text-2xl font-semibold sm:py-4 sm:text-4xl">용산03 시간표</p>
+              <main className="mx-auto flex w-full flex-col place-content-center items-center pt-2 text-base sm:pt-4 sm:text-2xl">
+                <div className="flex w-fit place-content-center items-center pb-8 text-xl sm:text-3xl">
+                  <p className="font-semibold text-blue-600">현재시간 &nbsp; {currentTime}</p>
+                </div>
+                <div className="flex place-content-center items-center space-x-6 sm:space-x-16">
+                  {/* <div className="flex w-fit flex-col place-content-center items-center">
                   <p>현재시간</p>
                   <p>{currentTime}</p>
                 </div> */}
 
-                <div className="flex w-fit flex-col text-center font-semibold">
-                  <p>다음 버스 하얏트 출발</p>
-                  <p>
-                    {new Date(upcomingBus.bus1).toTimeString().substring(0, 5)} ({leftTime.bus1}분 후)
-                  </p>
+                  <div className="flex w-fit flex-col text-center font-semibold">
+                    <p>다음 하얏트 출발</p>
+                    <p>
+                      {new Date(upcomingBus.bus1).toTimeString().substring(0, 5)} ({leftTime.bus1}분 후)
+                    </p>
+                  </div>
+                  <div className="flex w-fit flex-col text-center font-semibold">
+                    <p>그 다음 하얏트 출발</p>
+                    <p>
+                      {new Date(upcomingBus?.bus2).toTimeString().substring(0, 5)} ({leftTime.bus2}분 후)
+                    </p>
+                  </div>
                 </div>
-                <div className="flex w-fit flex-col text-center font-semibold">
-                  <p>그 다음 버스 하얏트 출발</p>
-                  <p>
-                    {new Date(upcomingBus?.bus2).toTimeString().substring(0, 5)} ({leftTime.bus2}분 후)
-                  </p>
-                </div>
-              </div>
-            </main>
-          </div>
-          <div className="mx-auto w-screen px-[6vw] py-12 sm:px-[10vw]">
-            <div className="mx-auto flex w-full place-content-center items-center text-sm font-bold sm:text-2xl">
-              {/* <div className="flex place-content-center items-center space-x-6 sm:space-x-16">
+              </main>
+            </div>
+            <div className="mx-auto w-screen px-[6vw] py-12 sm:px-[10vw]">
+              <div className="mx-auto flex w-full place-content-center items-center text-sm font-bold sm:text-2xl">
+                {/* <div className="flex place-content-center items-center space-x-6 sm:space-x-16">
                 <div className="flex w-fit flex-col text-center font-semibold">
                   <p>다음 버스 출발</p>
                   <p>
@@ -160,14 +164,15 @@ export default function Terms() {
                   </p>
                 </div>
               </div> */}
-              버스 도착정보
-            </div>
-            <div className="mx-auto">
-              <BusStation upcomingBus={upcomingBus} leftTime={leftTime} />
+                버스 도착정보
+              </div>
+              <div className="mx-auto">
+                <BusStation upcomingBus={upcomingBus} leftTime={leftTime} />
+              </div>
             </div>
           </div>
         </div>
-      </div>
+      </Layout>
     </>
   )
 }
