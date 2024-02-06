@@ -215,9 +215,9 @@ function TableSchedule({ upcomingBus, screenSize }) {
                 {upcomingBus.map((bus, i) => {
                   let busArrivalTime = addMinutes(new Date(bus), station.leadTime) // 다음 버스 출발시간 + 각 정류장까지 도달하는 시간(leadTime)을 더해줌
                   return (
-                    <td key={i} className={`md:px6 w-[26%] border px-1 py-2 text-center text-[14px] text-red-500 dark:text-rose-500 sm:text-sm md:w-[20%] md:text-base ${[3].includes(i) && screenSize < 768 && 'hidden'}`}>
+                    <td key={i} className={`md:px6 w-[26%] border px-1 py-2 text-center text-[15px] text-red-500 dark:text-rose-500 sm:text-sm md:w-[20%] md:text-base ${[3].includes(i) && screenSize < 768 && 'hidden'}`}>
                       {getTimeDiff(now, bus) + station.leadTime}분 뒤<br />
-                      <p className="flex w-full place-content-center text-xs text-gray-500 dark:text-gray-300 sm:text-sm md:text-[15px]">
+                      <p className="flex w-full place-content-center text-[13px] text-gray-500 dark:text-gray-300 sm:text-sm md:text-[15px]">
                         ({shortenTime(busArrivalTime)}
                         <span className="hidden md:block">&nbsp;도착</span>)
                       </p>
