@@ -70,18 +70,18 @@ export default function YongsanBus() {
   /** 1초마다 현재시간 새로고침 */
   // setInterval(initTimeData, 1000)
 
-  function onetimeFind() {
-    if (busTimeTable.length === 0 || busTimeList.length === 0) return // busTimeTable 또는 busTimeList가 아직 생성되지 않았다면 break. 문제없는 경우 아래 코드로 계속 진행함
-    // const d = new Date() // d = 현재시간
-    const d = new Date(parseTime('21:30')) // d = 현재시간
+  // function onetimeFind() {
+  //   if (busTimeTable.length === 0 || busTimeList.length === 0) return // busTimeTable 또는 busTimeList가 아직 생성되지 않았다면 break. 문제없는 경우 아래 코드로 계속 진행함
+  //   // const d = new Date() // d = 현재시간
+  //   const d = new Date(parseTime('21:30')) // d = 현재시간
 
-    const nextBusIndex = busTimeList.findIndex((time) => new Date(parseTime(time)).valueOf() > d.valueOf())
-    console.log('nextBusIndex', nextBusIndex)
-    console.log(`Next Bus1 Time: ${busTimeList[nextBusIndex]} (Index #: ${nextBusIndex})`)
-    console.log(`Next Bus2 Time: ${busTimeList[nextBusIndex + 1]} (Index #: ${nextBusIndex + 1})`)
+  //   const nextBusIndex = busTimeList.findIndex((time) => new Date(parseTime(time)).valueOf() > d.valueOf())
+  //   console.log('nextBusIndex', nextBusIndex)
+  //   console.log(`Next Bus1 Time: ${busTimeList[nextBusIndex]} (Index #: ${nextBusIndex})`)
+  //   console.log(`Next Bus2 Time: ${busTimeList[nextBusIndex + 1]} (Index #: ${nextBusIndex + 1})`)
 
-    // setUpcomingBus({ bus1: stringToTime(busTimeList[nextBusIndex]), bus2: stringToTime(busTimeList[nextBusIndex + 1]) })
-  }
+  //   // setUpcomingBus({ bus1: stringToTime(busTimeList[nextBusIndex]), bus2: stringToTime(busTimeList[nextBusIndex + 1]) })
+  // }
 
   /** 다음 버스가 언제 출발하는지 리턴해주는 함수 */
   function findNextBus() {
