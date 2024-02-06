@@ -170,7 +170,7 @@ export default function YongsanBus() {
               </div>
               <div className="mx-auto pt-8">
                 <p className="pb-2 text-xs font-semibold md:text-sm">
-                  하얏트호텔 → 남영 방향 용산03입니다. (경리단길 하행선 전용 시간표)
+                  하얏트호텔 → 남영 방향입니다. (경리단길 하행선 전용 시간표)
                   {/* <br />* 이 시간표는 용산03 공식 출발 시간표를 기준으로 제작되었습니다. */}
                 </p>
                 <TableSchedule upcomingBus={upcomingBus} />
@@ -196,7 +196,7 @@ function TableSchedule({ upcomingBus }) {
       <table className="h-full w-[100%] table-fixed divide-y divide-gray-200 rounded dark:divide-gray-700">
         {/* <DashboardHeader />
         <DashboardBody upcomingBus={upcomingBus} /> */}
-        <thead className="bg-slate-100 bg-white text-xs font-bold dark:bg-slate-900 md:text-base">
+        <thead className="bg-gray-200/70 bg-white text-xs font-bold dark:bg-slate-900 md:text-base">
           <tr>
             {stations.map((station, i) => {
               return (
