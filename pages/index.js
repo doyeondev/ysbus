@@ -39,7 +39,7 @@ export default function YongsanBus() {
 
     setBusTimeTable(timeTable)
     setBusTimeList(timeStringList)
-    initTimeData()
+    // initTimeData()
   }, [])
 
   useEffect(() => {
@@ -68,7 +68,7 @@ export default function YongsanBus() {
   }
 
   /** 1초마다 현재시간 새로고침 */
-  // setInterval(initTimeData, 1000)
+  setInterval(initTimeData, 1000)
 
   // function onetimeFind() {
   //   if (busTimeTable.length === 0 || busTimeList.length === 0) return // busTimeTable 또는 busTimeList가 아직 생성되지 않았다면 break. 문제없는 경우 아래 코드로 계속 진행함
