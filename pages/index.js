@@ -166,7 +166,7 @@ export default function YongsanBus() {
               <div className="mx-auto flex w-full flex-col place-content-center items-center text-center text-xl font-bold md:text-3xl">
                 용산03 도착정보
                 <br />
-                <span className="pt-2 text-lg md:text-xl">(현재시간 {currentTime})</span>
+                <span className="pt-2 text-lg text-blue-500 dark:text-blue-300 md:text-xl">(현재시간 {currentTime})</span>
               </div>
               <div className="mx-auto pt-8">
                 <p className="pb-2 text-xs font-semibold md:text-sm">
