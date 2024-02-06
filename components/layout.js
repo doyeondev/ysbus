@@ -6,7 +6,7 @@ export default function Layout({ children }) {
     <div className="bg-transparent">
       <Header />
       <div className="h-auto">{children}</div>
-      <Footer />
+      {/* <Footer /> */}
     </div>
   )
 }

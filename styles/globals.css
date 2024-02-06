@@ -17,5 +17,5 @@ footer {
 }
 
 p {
-  @apply text-slate-700 dark:text-white;
+  @apply text-black dark:text-white;
 }

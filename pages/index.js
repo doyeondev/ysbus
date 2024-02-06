@@ -4,17 +4,20 @@ import Head from 'next/head'
 import _ from 'lodash'
 import { formatDate } from 'utils/dateUtils'
 import Layout from '/components/layout'
+import Image from 'next/image'
 
-export default function Terms() {
+export default function YongsanBus() {
   const [startTime, setStartTime] = useState(5) // 첫 버스가 출발하는 시간: 오전 5시
   const [busTimeTable, setBusTimeTable] = useState([])
   const [busTimeList, setBusTimeList] = useState([])
   const [currentTime, setCurrentTime] = useState('')
-  const [upcomingBus, setUpcomingBus] = useState({})
+  const [upcomingBus, setUpcomingBus] = useState([])
   const [leftTime, setLeftTime] = useState({})
 
   useEffect(() => {
-    localStorage.theme = 'light'
+    // localStorage.theme = 'light'
+    const d = new Date(parseTime('21:30')) // d = 현재시간
+    setCurrentTime(d)
 
     const timeTable = []
     const timeStringList = []
@@ -45,51 +48,46 @@ export default function Terms() {
 
   useEffect(() => {
     if (upcomingBus === {}) return
-    const now = new Date()
+    // const now = new Date()
+    const now = new Date(parseTime('21:30'))
     const bus1 = new Date(upcomingBus.bus1)
     const bus2 = new Date(upcomingBus.bus2)
 
     setLeftTime({ bus1: getTimeDiff(now, bus1), bus2: getTimeDiff(now, bus2) })
   }, [upcomingBus])
 
-  /** 두 시간의 차이를 계산하는 함수 */
-  function getTimeDiff(date1, date2) {
-    // const d1 = date1 === 'now' ? new Date().getTime() : new Date(date1).getTime()
-    const d1 = new Date(date1).getTime()
-    const d2 = new Date(date2).getTime()
-    return Math.round((d2 - d1) / 60000) // Can use Math.floor or Math.ceil depends up to you
-  }
-
   /** 화면에 보여지는 현재시간을 가져옴 */
   function initTimeData() {
     // console.log('new Date', new Date())
-    // const sampleTime = parseTime('22:57')
-    // let t = new Date(sampleTime).toTimeString().substring(0, 8)
-    let t = new Date().toTimeString().substring(0, 8)
+    const sampleTime = parseTime('21:30')
+    let t = new Date(sampleTime).toTimeString().substring(0, 8)
+    // let t = new Date().toTimeString().substring(0, 8)
     setCurrentTime(t)
     findNextBus() // 다시 켜야함
     // onetimeFind()
   }
 
   /** 1초마다 현재시간 새로고침 */
-  setInterval(initTimeData, 1000)
+  // setInterval(initTimeData, 1000)
 
-  // function onetimeFind() {
-  //   if (busTimeTable.length === 0 || busTimeList.length === 0) return // busTimeTable 또는 busTimeList가 아직 생성되지 않았다면 break. 문제없는 경우 아래 코드로 계속 진행함
-  //   const d = new Date() // d = 현재시간
-  //   const nextBusIndex = busTimeList.findIndex((time) => new Date(parseTime(time)).valueOf() > d.valueOf())
-  //   console.log('nextBusIndex', nextBusIndex)
-  //   console.log(`Next Bus1 Time: ${busTimeList[nextBusIndex]} (Index #: ${nextBusIndex})`)
-  //   console.log(`Next Bus2 Time: ${busTimeList[nextBusIndex + 1]} (Index #: ${nextBusIndex + 1})`)
+  function onetimeFind() {
+    if (busTimeTable.length === 0 || busTimeList.length === 0) return // busTimeTable 또는 busTimeList가 아직 생성되지 않았다면 break. 문제없는 경우 아래 코드로 계속 진행함
+    // const d = new Date() // d = 현재시간
+    const d = new Date(parseTime('21:30')) // d = 현재시간
 
-  //   // setUpcomingBus({ bus1: stringToTime(busTimeList[nextBusIndex]), bus2: stringToTime(busTimeList[nextBusIndex + 1]) })
-  // }
+    const nextBusIndex = busTimeList.findIndex((time) => new Date(parseTime(time)).valueOf() > d.valueOf())
+    console.log('nextBusIndex', nextBusIndex)
+    console.log(`Next Bus1 Time: ${busTimeList[nextBusIndex]} (Index #: ${nextBusIndex})`)
+    console.log(`Next Bus2 Time: ${busTimeList[nextBusIndex + 1]} (Index #: ${nextBusIndex + 1})`)
+
+    // setUpcomingBus({ bus1: stringToTime(busTimeList[nextBusIndex]), bus2: stringToTime(busTimeList[nextBusIndex + 1]) })
+  }
 
   /** 다음 버스가 언제 출발하는지 리턴해주는 함수 */
   function findNextBus() {
     if (busTimeTable.length === 0 || busTimeList.length === 0) return // busTimeTable 또는 busTimeList가 아직 생성되지 않았다면 break. 문제없는 경우 아래 코드로 계속 진행함
-    const d = new Date() // d = 현재시간
-    // const d = new Date(parseTime('22:57')) // d = 임의의 시간
+    // const d = new Date() // d = 현재시간
+    const d = new Date(parseTime('21:30')) // d = 임의의 시간
 
     /**
      * 핵심: Date.prototype.valueOf()를 사용하여 Date -> Numerical value로 변환해줌.
@@ -107,10 +105,19 @@ export default function Terms() {
     const nextBusIndex = busTimeList.findIndex((time) => new Date(parseTime(time)).valueOf() > d.valueOf())
     // console.log('nextBusIndex', nextBusIndex)
     // console.log(`Next Bus Time: ${busTimeList[nextBusIndex]} (Index #: ${nextBusIndex})`)
-    setUpcomingBus({ bus1: stringToTime(busTimeList[nextBusIndex]), bus2: stringToTime(busTimeList[nextBusIndex + 1]) })
-    // setUpcomingBus({ bus1: formatTime(new Date(busTimeList[nextBusIndex])), bus2: formatTime(new Date(busTimeList[nextBusIndex + 1])) })
+    // setUpcomingBus({ bus1: stringToTime(busTimeList[nextBusIndex]), bus2: stringToTime(busTimeList[nextBusIndex + 1]) })
+
+    let arr = []
+    for (let i = 0; i < 5; i++) {
+      arr.push(stringToTime(busTimeList[nextBusIndex + i]))
+    }
+    // setUpcomingBus([stringToTime(busTimeList[nextBusIndex]), stringToTime(busTimeList[nextBusIndex + 1])])
+    setUpcomingBus(arr)
   }
 
+  // console.log('getTimeDiff(currentTime, upcomingBus[0])', getTimeDiff(stringToTime(currentTime), upcomingBus[0]))
+  // console.log('currentTime', currentTime)
+  // console.log('upcomingBus', upcomingBus)
   return (
     <>
       <Layout>
@@ -120,54 +127,53 @@ export default function Terms() {
           <link rel="icon" href="/favicon.ico" />
         </Head>
         <div className="w-full">
-          <div className="flex flex-col">
-            <div className="flex h-full w-full flex-col place-content-center items-center space-y-8 bg-green-100 px-[10vw] py-12 dark:bg-[#1DB807]">
-              <p className="mx-auto py-2 text-2xl font-semibold sm:py-4 sm:text-4xl">용산03 시간표</p>
-              <main className="mx-auto flex w-full flex-col place-content-center items-center pt-2 text-base sm:pt-4 sm:text-2xl">
-                <div className="flex w-fit place-content-center items-center pb-8 text-xl sm:text-3xl">
-                  <p className="font-semibold text-blue-600">현재시간 &nbsp; {currentTime}</p>
-                </div>
-                <div className="flex place-content-center items-center space-x-6 sm:space-x-16">
-                  {/* <div className="flex w-fit flex-col place-content-center items-center">
-                  <p>현재시간</p>
-                  <p>{currentTime}</p>
-                </div> */}
+          <div className="flex h-screen flex-col">
+            <div className="flex h-full w-full flex-col place-content-center items-center space-y-8 bg-[#1DB807] px-[10vw] pb-8 pt-16 dark:bg-slate-800">
+              {/* <p className="mx-auto py-2 text-2xl font-semibold md:py-4 md:text-4xl">용산03 시간표</p> */}
+              <div className="rounded-md bg-[#E8F9E8] px-4 py-4">
+                <Image alt="용산03" src="/icon/yongsan_light.svg" width={0} height={0} sizes="100vw" className="justify-cente w-[480px]" />
+              </div>
+              {/* <Image alt="용산03" src="/icon/yongsan_white.svg" width={0} height={0} sizes="100vw" className="w-[360px] justify-center" /> */}
 
-                  <div className="flex w-fit flex-col text-center font-semibold">
-                    <p>다음 하얏트 출발</p>
-                    <p>
-                      {new Date(upcomingBus.bus1).toTimeString().substring(0, 5)} ({leftTime.bus1}분 후)
+              <main className="mx-auto flex w-full flex-col place-content-center items-center pt-2 text-base text-white md:pt-4 md:text-2xl">
+                <div className="flex place-content-center items-center space-x-6 md:space-x-16">
+                  {/* <div className="flex w-fit flex-col place-content-center items-center">
+                    <p>현재시간</p>
+                    <p>{currentTime}</p>
+                  </div> */}
+                  <div className="flex w-fit text-center font-bold">
+                    <p className="text-[#E8F9E8]">
+                      다음 하얏트 출발
+                      <br />
+                      <span className="text-white">
+                        {getTimeDiff(stringToTime(currentTime), upcomingBus[0])}분 후 <span className="text-sm md:text-lg">({new Date(upcomingBus[0]).toTimeString().substring(0, 5)})</span>
+                      </span>
                     </p>
                   </div>
-                  <div className="flex w-fit flex-col text-center font-semibold">
-                    <p>그 다음 하얏트 출발</p>
-                    <p>
-                      {new Date(upcomingBus?.bus2).toTimeString().substring(0, 5)} ({leftTime.bus2}분 후)
+                  <div className="flex w-fit text-center font-bold">
+                    <p className="text-[#E5F8E2]">
+                      그 다음 하얏트 출발
+                      <br />
+                      <span className="text-white">
+                        {getTimeDiff(stringToTime(currentTime), upcomingBus[1])}분 후 <span className="text-sm md:text-lg">({new Date(upcomingBus[1]).toTimeString().substring(0, 5)})</span>
+                      </span>
                     </p>
                   </div>
                 </div>
               </main>
             </div>
-            <div className="mx-auto w-screen px-[6vw] py-12 sm:px-[10vw]">
-              <div className="mx-auto flex w-full place-content-center items-center text-sm font-bold sm:text-2xl">
-                {/* <div className="flex place-content-center items-center space-x-6 sm:space-x-16">
-                <div className="flex w-fit flex-col text-center font-semibold">
-                  <p>다음 버스 출발</p>
-                  <p>
-                    {new Date(upcomingBus.bus1).toTimeString().substring(0, 5)} ({leftTime.bus1}분 후)
-                  </p>
-                </div>
-                <div className="flex w-fit flex-col text-center font-semibold">
-                  <p>그 다음 버스 출발</p>
-                  <p>
-                    {new Date(upcomingBus?.bus2).toTimeString().substring(0, 5)} ({leftTime.bus2}분 후)
-                  </p>
-                </div>
-              </div> */}
-                버스 도착정보
+            <div className="mx-auto w-screen px-[6vw] py-16 dark:bg-slate-600 md:px-[20vw]">
+              <div className="mx-auto flex w-full flex-col place-content-center items-center text-center text-xl font-bold md:text-3xl">
+                용산03 도착정보
+                <br />
+                <span className="pt-2 text-lg md:text-xl">(현재시간 {currentTime})</span>
               </div>
-              <div className="mx-auto">
-                <BusStation upcomingBus={upcomingBus} leftTime={leftTime} />
+              <div className="mx-auto pt-8">
+                <p className="pb-2 text-xs font-semibold md:text-sm">
+                  * 하얏트호텔 → 남영 방향 용산03입니다. (경리단길 하행선 전용 시간표)
+                  {/* <br /> */}
+                </p>
+                <TableSchedule upcomingBus={upcomingBus} />
               </div>
             </div>
           </div>
@@ -177,50 +183,105 @@ export default function Terms() {
   )
 }
 
-function BusStation({ upcomingBus, leftTime }) {
-  //   console.log('upcomingBus', new Date(upcomingBus.bus1))
-  const newDateObj = addMinutes(new Date(upcomingBus.bus1), leftTime.bus1)
-  //   console.log('newDateObj', newDateObj)
+function TableSchedule({ upcomingBus }) {
+  const now = new Date(parseTime('21:30'))
+
   return (
     <>
-      <div className="mx-auto flex w-full place-content-center space-x-8 pt-12 text-sm sm:space-x-16 sm:text-xl">
-        <div className="flex w-fit flex-col text-center">
-          <div className="pb-8 font-bold">정류장</div>
-          {stations.map((station, i) => {
+      <table className="h-full w-[100%] table-fixed divide-y divide-gray-200 rounded dark:divide-gray-700">
+        {/* <DashboardHeader />
+        <DashboardBody upcomingBus={upcomingBus} /> */}
+        <thead className="bg-slate-100 bg-white text-xs font-bold dark:bg-slate-900 md:text-base">
+          <tr>
+            {stations.map((station, i) => {
+              return (
+                <th key={i} scope="col" className={`w-[20%] px-1 py-2 text-left text-center rtl:text-right dark:text-white md:pl-10 md:pr-4 ${[2, 3].includes(i) && ''}`}>
+                  {station.str1 ? (
+                    <>
+                      <p className={`text-[12px] md:text-base ${[2, 3].includes(i) ? '' : ''}`}>
+                        {station.str1} <br /> {station.str2}
+                      </p>
+                    </>
+                  ) : (
+                    station.name
+                  )}
+                </th>
+              )
+            })}
+          </tr>
+        </thead>
+        <tbody className="divide-y divide-gray-200 bg-white dark:divide-gray-700 dark:bg-gray-800">
+          {/* <td className="w-[20%] py-3.5 pl-6 pr-4 text-sm font-medium text-gray-700">다음 버스 도착</td> */}
+          {upcomingBus.map((bus, i) => {
             return (
-              <div key={i} className={`pb-8 ${station.highlight && 'font-bold'}`}>
-                {station.name}
-              </div>
+              <tr key={`row${i}`} className="hover:bg-slate-50 dark:hover:bg-slate-600">
+                {stations.map((station, i) => {
+                  let busArrivalTime = addMinutes(new Date(bus), station.leadTime) // 다음 버스 출발시간 + 각 정류장까지 도달하는 시간(leadTime)을 더해줌
+                  return (
+                    <td key={i} className={`w-[20%] px-1 py-2.5 text-center text-xs text-red-600 dark:text-red-500 md:pl-10 md:pr-4 md:text-[15px] ${[2, 3].includes(i) && ''}`}>
+                      {getTimeDiff(now, bus) + station.leadTime}분 뒤<br />
+                      {/*  */}
+                      <p className="flex w-full place-content-center text-[12px] text-gray-500 dark:text-gray-300 md:text-sm">
+                        ({shortenTime(busArrivalTime)}
+                        <span className="hidden md:block">&nbsp;도착</span>)
+                      </p>
+                    </td>
+                  )
+                })}
+              </tr>
             )
           })}
-        </div>
-        <div className="flex w-fit flex-col text-center">
-          <div className="pb-8 font-bold">다음 버스 도착</div>
-          {stations.map((station, i) => {
-            let busArrivalTime = addMinutes(new Date(upcomingBus.bus1), station.leadTime) // 다음 버스 출발시간 + 각 정류장까지 도달하는 시간(leadTime)을 더해줌
-            return (
-              <div key={i} className={`pb-8 ${station.highlight && 'font-bold text-red-500'}`}>
-                {leftTime.bus1 + station.leadTime}분 후 ({shortenTime(busArrivalTime)})
-              </div>
-            )
-          })}
-        </div>
-        <div className="flex w-fit flex-col text-center">
-          <div className="pb-8 font-bold">그 다음 버스 도착</div>
-          {stations.map((station, i) => {
-            let busArrivalTime = addMinutes(new Date(upcomingBus.bus2), station.leadTime) // 다음 버스 출발시간 + 각 정류장까지 도달하는 시간(leadTime)을 더해줌
-            return (
-              <div key={i} className={`pb-8 ${station.highlight && 'font-bold'}`}>
-                {leftTime.bus2 + station.leadTime}분 후 ({shortenTime(busArrivalTime)})
-              </div>
-            )
-          })}
-        </div>
-      </div>
+        </tbody>
+      </table>
     </>
   )
 }
 
+const DashboardHeader = () => {
+  return (
+    <>
+      <thead className="text-xm bg-white font-bold dark:bg-gray-800 md:text-base">
+        <tr>
+          {stations.map((station, i) => {
+            return (
+              <th key={i} scope="col" className={`w-[20%] px-1 py-3.5 text-left text-center rtl:text-right dark:text-gray-400 md:pl-10 md:pr-4 ${[2, 3].includes(i) ? 'text-red-700 ' : 'text-gray-700'}`}>
+                {station.name}
+              </th>
+            )
+          })}
+        </tr>
+      </thead>
+    </>
+  )
+}
+
+const DashboardBody = ({ upcomingBus }) => {
+  const now = new Date(parseTime('21:30'))
+  if (upcomingBus.length > 0) {
+    return (
+      <>
+        {/* even:bg-slate-50 */}
+        <tbody className="divide-y divide-gray-200 bg-white dark:divide-gray-700 dark:bg-gray-900">
+          {/* <td className="w-[20%] py-3.5 pl-6 pr-4 text-sm font-medium text-gray-700">다음 버스 도착</td> */}
+          {upcomingBus.map((bus, i) => {
+            return (
+              <tr key={`row${i}`} className="hover:bg-slate-50 ">
+                {stations.map((station, i) => {
+                  let busArrivalTime = addMinutes(new Date(bus), station.leadTime) // 다음 버스 출발시간 + 각 정류장까지 도달하는 시간(leadTime)을 더해줌
+                  return (
+                    <td key={i} className="w-[20%] truncate px-1 py-2.5 text-center text-sm text-gray-500 dark:text-gray-300 md:pl-10 md:pr-4">
+                      {getTimeDiff(now, bus) + station.leadTime}분 후 <br /> ({shortenTime(busArrivalTime)})
+                    </td>
+                  )
+                })}
+              </tr>
+            )
+          })}
+        </tbody>
+      </>
+    )
+  }
+}
 /** ex) '오후 23:00:00' -> '23:00'으로 줄여주는 함수 */
 function shortenTime(time) {
   return time.toTimeString().substring(0, 5)
@@ -290,6 +351,14 @@ function formatTimeString(hour, minute) {
   return minute < 10 ? `${hour}:0${minute}` : `${hour}:${minute}`
 }
 
+/** 두 시간의 차이를 계산하는 함수 */
+function getTimeDiff(date1, date2) {
+  // const d1 = date1 === 'now' ? new Date().getTime() : new Date(date1).getTime()
+  const d1 = new Date(date1).getTime()
+  const d2 = new Date(date2).getTime()
+  return Math.round((d2 - d1) / 60000) // Can use Math.floor or Math.ceil depends up to you
+}
+
 /** 용산03 버스시간표. 0번째 인덱스는 새벽 5시. */
 const yongsan = [
   [50, 57], // 5시
@@ -316,9 +385,53 @@ const yongsan = [
 /** 정류장 이름과 종점에서부터의 소요시간 */
 const stations = [
   //   { name: '하얏트호텔', leadTime: 0 },
-  { name: '필리핀대사관', leadTime: 1 },
+  { name: '필리핀대사관', str1: '필리핀', str2: '대사관', leadTime: 1 },
   { name: '가야랑앞', leadTime: 2 },
-  { name: '디지텍고', leadTime: 3, highlight: true },
+  { name: '디지텍고등학교', str1: '디지텍', str2: '고등학교', leadTime: 3, highlight: true },
   { name: '성도약국', leadTime: 4, highlight: true },
   { name: '시장', leadTime: 4 }
 ]
+
+// function BusStation({ upcomingBus, leftTime }) {
+//   //   console.log('upcomingBus', new Date(upcomingBus.bus1))
+//   const newDateObj = addMinutes(new Date(upcomingBus.bus1), leftTime.bus1)
+//   //   console.log('newDateObj', newDateObj)
+//   return (
+//     <>
+//       <div className="mx-auto flex w-full place-content-center space-x-8 pt-12 text-sm md:space-x-16 md:text-xl">
+//         <div className="flex w-fit flex-col text-center">
+//           <div className="pb-8 font-bold">정류장</div>
+//           {stations.map((station, i) => {
+//             return (
+//               <div key={i} className={`pb-8 ${station.highlight && 'font-bold'}`}>
+//                 {station.name}
+//               </div>
+//             )
+//           })}
+//         </div>
+//         <div className="flex w-fit flex-col text-center">
+//           <div className="pb-8 font-bold">다음 버스 도착</div>
+//           {stations.map((station, i) => {
+//             let busArrivalTime = addMinutes(new Date(upcomingBus.bus1), station.leadTime) // 다음 버스 출발시간 + 각 정류장까지 도달하는 시간(leadTime)을 더해줌
+//             return (
+//               <div key={i} className={`pb-8 ${station.highlight && 'font-bold text-red-500'}`}>
+//                 {leftTime.bus1 + station.leadTime}분 후 ({shortenTime(busArrivalTime)})
+//               </div>
+//             )
+//           })}
+//         </div>
+//         <div className="flex w-fit flex-col text-center">
+//           <div className="pb-8 font-bold">그 다음 버스 도착</div>
+//           {stations.map((station, i) => {
+//             let busArrivalTime = addMinutes(new Date(upcomingBus.bus2), station.leadTime) // 다음 버스 출발시간 + 각 정류장까지 도달하는 시간(leadTime)을 더해줌
+//             return (
+//               <div key={i} className={`pb-8 ${station.highlight && 'font-bold'}`}>
+//                 {leftTime.bus2 + station.leadTime}분 후 ({shortenTime(busArrivalTime)})
+//               </div>
+//             )
+//           })}
+//         </div>
+//       </div>
+//     </>
+//   )
+// }
