@@ -131,15 +131,15 @@ export default function YongsanBus() {
           <div className="flex h-screen flex-col">
             <div className="flex h-full w-full flex-col place-content-center items-center space-y-8 bg-[#1DB807] px-4 pb-6 pt-12 dark:bg-slate-800 sm:px-[10vw] sm:pb-10 sm:pt-16">
               {/* <p className="mx-auto py-2 text-2xl font-semibold md:py-4 md:text-4xl">용산03 시간표</p> */}
-              <div className="mt-4 rounded-md bg-[#E8F9E8] px-4 py-4 md:mt-8">
+              <div className="mt-4 rounded-md bg-[#E8F9E8] px-4 py-4 md:mt-3">
                 <Image alt="용산03" src="/icon/yongsan_light.svg" width={0} height={0} sizes="100vw" className="justify-cente w-[480px]" />
               </div>
               {/* <Image alt="용산03" src="/icon/yongsan_white.svg" width={0} height={0} sizes="100vw" className="w-[360px] justify-center" /> */}
-
-              <main className="mx-auto flex w-full flex-col place-content-center items-center pt-2 text-sm text-white sm:text-base md:pt-4 md:text-2xl">
-                <div className="flex place-content-center items-center space-x-5 md:space-x-16">
+              <main className="mx-auto flex w-full flex-col place-content-center items-center pt-2 text-base text-white sm:text-base md:pt-4 md:text-2xl">
+                <div className="flex place-content-center items-center space-x-8 md:space-x-16">
                   <div className="flex w-fit text-center font-bold">
-                    <p className="text-[#E8F9E8]">
+                    {/* <p className="text-[#E8F9E8]"> */}
+                    <p className="text-white">
                       다음 하얏트 출발
                       <br />
                       <span className="text-white">
@@ -148,7 +148,7 @@ export default function YongsanBus() {
                     </p>
                   </div>
                   <div className="flex w-fit text-center font-bold">
-                    <p className="text-[#E5F8E2]">
+                    <p className="text-white">
                       그 다음 하얏트 출발
                       <br />
                       <span className="text-white">
@@ -159,7 +159,7 @@ export default function YongsanBus() {
                 </div>
               </main>
             </div>
-            <div className="mx-auto w-screen px-[6vw] py-12 dark:bg-slate-700 sm:py-16 md:px-[15vw]">
+            <div className="mx-auto w-screen px-[6vw] py-12 dark:bg-slate-700 sm:py-12 md:px-[15vw]">
               <div className="mx-auto flex w-full flex-col place-content-center items-center text-center text-2xl font-bold md:text-3xl">
                 용산03 도착정보
                 <br />
@@ -167,7 +167,7 @@ export default function YongsanBus() {
               </div>
               <div className="mx-auto pt-8">
                 <p className="pb-2 text-xs font-semibold md:text-sm">
-                  하얏트호텔 → 남영 방향입니다. (경리단길 하행선 전용 시간표)
+                  하얏트호텔 → 남영 방향 입니다. (경리단길 하행선 버스탑승 시간표)
                   {/* <br />* 이 시간표는 용산03 공식 출발 시간표를 기준으로 제작되었습니다. */}
                 </p>
                 <TableSchedule upcomingBus={upcomingBus} screenSize={screenSize} />
@@ -215,7 +215,7 @@ function TableSchedule({ upcomingBus, screenSize }) {
                 {upcomingBus.map((bus, i) => {
                   let busArrivalTime = addMinutes(new Date(bus), station.leadTime) // 다음 버스 출발시간 + 각 정류장까지 도달하는 시간(leadTime)을 더해줌
                   return (
-                    <td key={i} className={`md:px6 w-[26%] border px-1 py-2.5 text-center text-[14px] text-red-500 dark:text-rose-500 sm:text-sm md:w-[20%] md:text-base ${[3].includes(i) && screenSize < 768 && 'hidden'}`}>
+                    <td key={i} className={`md:px6 w-[26%] border px-1 py-2 text-center text-[14px] text-red-500 dark:text-rose-500 sm:text-sm md:w-[20%] md:text-base ${[3].includes(i) && screenSize < 768 && 'hidden'}`}>
                       {getTimeDiff(now, bus) + station.leadTime}분 뒤<br />
                       <p className="flex w-full place-content-center text-xs text-gray-500 dark:text-gray-300 sm:text-sm md:text-[15px]">
                         ({shortenTime(busArrivalTime)}
