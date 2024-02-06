@@ -16,8 +16,8 @@ export default function YongsanBus() {
 
   useEffect(() => {
     // localStorage.theme = 'light'
-    const d = new Date(parseTime('21:30')) // d = 현재시간
-    setCurrentTime(d)
+    // const d = new Date(parseTime('21:30')) // d = 현재시간
+    // setCurrentTime(d)
 
     const timeTable = []
     const timeStringList = []
@@ -48,8 +48,8 @@ export default function YongsanBus() {
 
   useEffect(() => {
     if (upcomingBus === {}) return
-    // const now = new Date()
-    const now = new Date(parseTime('21:30'))
+    const now = new Date()
+    // const now = new Date(parseTime('21:30'))
     const bus1 = new Date(upcomingBus.bus1)
     const bus2 = new Date(upcomingBus.bus2)
 
@@ -59,9 +59,9 @@ export default function YongsanBus() {
   /** 화면에 보여지는 현재시간을 가져옴 */
   function initTimeData() {
     // console.log('new Date', new Date())
-    const sampleTime = parseTime('21:30')
-    let t = new Date(sampleTime).toTimeString().substring(0, 8)
-    // let t = new Date().toTimeString().substring(0, 8)
+    // const sampleTime = parseTime('21:30')
+    // let t = new Date(sampleTime).toTimeString().substring(0, 8)
+    let t = new Date().toTimeString().substring(0, 8)
     setCurrentTime(t)
     findNextBus() // 다시 켜야함
     // onetimeFind()
@@ -86,8 +86,8 @@ export default function YongsanBus() {
   /** 다음 버스가 언제 출발하는지 리턴해주는 함수 */
   function findNextBus() {
     if (busTimeTable.length === 0 || busTimeList.length === 0) return // busTimeTable 또는 busTimeList가 아직 생성되지 않았다면 break. 문제없는 경우 아래 코드로 계속 진행함
-    // const d = new Date() // d = 현재시간
-    const d = new Date(parseTime('21:30')) // d = 임의의 시간
+    const d = new Date() // d = 현재시간
+    // const d = new Date(parseTime('21:30')) // d = 임의의 시간
 
     /**
      * 핵심: Date.prototype.valueOf()를 사용하여 Date -> Numerical value로 변환해줌.
@@ -184,7 +184,8 @@ export default function YongsanBus() {
 }
 
 function TableSchedule({ upcomingBus }) {
-  const now = new Date(parseTime('21:30'))
+  // const now = new Date(parseTime('21:30'))
+  const now = new Date()
 
   return (
     <>
@@ -237,51 +238,54 @@ function TableSchedule({ upcomingBus }) {
   )
 }
 
-const DashboardHeader = () => {
-  return (
-    <>
-      <thead className="text-xm bg-white font-bold dark:bg-gray-800 md:text-base">
-        <tr>
-          {stations.map((station, i) => {
-            return (
-              <th key={i} scope="col" className={`w-[20%] px-1 py-3.5 text-left text-center rtl:text-right dark:text-gray-400 md:pl-10 md:pr-4 ${[2, 3].includes(i) ? 'text-red-700 ' : 'text-gray-700'}`}>
-                {station.name}
-              </th>
-            )
-          })}
-        </tr>
-      </thead>
-    </>
-  )
-}
+// const DashboardHeader = () => {
+//   return (
+//     <>
+//       <thead className="text-xm bg-white font-bold dark:bg-gray-800 md:text-base">
+//         <tr>
+//           {stations.map((station, i) => {
+//             return (
+//               <th key={i} scope="col" className={`w-[20%] px-1 py-3.5 text-left text-center rtl:text-right dark:text-gray-400 md:pl-10 md:pr-4 ${[2, 3].includes(i) ? 'text-red-700 ' : 'text-gray-700'}`}>
+//                 {station.name}
+//               </th>
+//             )
+//           })}
+//         </tr>
+//       </thead>
+//     </>
+//   )
+// }
 
-const DashboardBody = ({ upcomingBus }) => {
-  const now = new Date(parseTime('21:30'))
-  if (upcomingBus.length > 0) {
-    return (
-      <>
-        {/* even:bg-slate-50 */}
-        <tbody className="divide-y divide-gray-200 bg-white dark:divide-gray-700 dark:bg-gray-900">
-          {/* <td className="w-[20%] py-3.5 pl-6 pr-4 text-sm font-medium text-gray-700">다음 버스 도착</td> */}
-          {upcomingBus.map((bus, i) => {
-            return (
-              <tr key={`row${i}`} className="hover:bg-slate-50 ">
-                {stations.map((station, i) => {
-                  let busArrivalTime = addMinutes(new Date(bus), station.leadTime) // 다음 버스 출발시간 + 각 정류장까지 도달하는 시간(leadTime)을 더해줌
-                  return (
-                    <td key={i} className="w-[20%] truncate px-1 py-2.5 text-center text-sm text-gray-500 dark:text-gray-300 md:pl-10 md:pr-4">
-                      {getTimeDiff(now, bus) + station.leadTime}분 후 <br /> ({shortenTime(busArrivalTime)})
-                    </td>
-                  )
-                })}
-              </tr>
-            )
-          })}
-        </tbody>
-      </>
-    )
-  }
-}
+// const DashboardBody = ({ upcomingBus }) => {
+//   // const now = new Date(parseTime('21:30'))
+//   const now = new Date()
+
+//   if (upcomingBus.length > 0) {
+//     return (
+//       <>
+//         {/* even:bg-slate-50 */}
+//         <tbody className="divide-y divide-gray-200 bg-white dark:divide-gray-700 dark:bg-gray-900">
+//           {/* <td className="w-[20%] py-3.5 pl-6 pr-4 text-sm font-medium text-gray-700">다음 버스 도착</td> */}
+//           {upcomingBus.map((bus, i) => {
+//             return (
+//               <tr key={`row${i}`} className="hover:bg-slate-50 ">
+//                 {stations.map((station, i) => {
+//                   let busArrivalTime = addMinutes(new Date(bus), station.leadTime) // 다음 버스 출발시간 + 각 정류장까지 도달하는 시간(leadTime)을 더해줌
+//                   return (
+//                     <td key={i} className="w-[20%] truncate px-1 py-2.5 text-center text-sm text-gray-500 dark:text-gray-300 md:pl-10 md:pr-4">
+//                       {getTimeDiff(now, bus) + station.leadTime}분 후 <br /> ({shortenTime(busArrivalTime)})
+//                     </td>
+//                   )
+//                 })}
+//               </tr>
+//             )
+//           })}
+//         </tbody>
+//       </>
+//     )
+//   }
+// }
+
 /** ex) '오후 23:00:00' -> '23:00'으로 줄여주는 함수 */
 function shortenTime(time) {
   return time.toTimeString().substring(0, 5)
