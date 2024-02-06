@@ -159,7 +159,7 @@ export default function YongsanBus() {
                 </div>
               </main>
             </div>
-            <div className="mx-auto w-screen px-[6vw] py-12 dark:bg-slate-700 sm:py-12 md:px-[15vw]">
+            <div className="mx-auto w-screen px-[6vw] py-12 dark:bg-slate-700 sm:px-[12vw] sm:py-12 md:px-[14vw] lg:px-[20vw] xl:px-[25vw]">
               <div className="mx-auto flex w-full flex-col place-content-center items-center text-center text-2xl font-bold md:text-3xl">
                 용산03 도착정보
                 <br />
@@ -200,7 +200,7 @@ function TableSchedule({ upcomingBus, screenSize }) {
               <tr key={`row${i}`} className="text-[14px] hover:bg-slate-50 dark:hover:bg-slate-600 sm:text-sm md:text-base">
                 {/* <td className="w-[25%] bg-white text-center font-bold dark:bg-slate-900 md:pl-10 md:pr-4 md:text-[15px]"> */}
                 <td className="md:px6 w-[22%] border bg-gray-50 text-center font-bold dark:bg-slate-900 md:w-[20%]">
-                  {screenSize < 768 && station.str1 ? (
+                  {screenSize < 800 && station.str1 ? (
                     <>
                       <p className={`${[2, 3].includes(i) ? '' : ''}`}>
                         {station.str1} <br /> {station.str2}
