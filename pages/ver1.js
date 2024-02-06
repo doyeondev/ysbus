@@ -13,13 +13,12 @@ export default function YongsanBus() {
   const [currentTime, setCurrentTime] = useState('')
   const [upcomingBus, setUpcomingBus] = useState([])
   const [leftTime, setLeftTime] = useState({})
-  const [screenSize, setScreenSize] = useState('')
 
   useEffect(() => {
     // localStorage.theme = 'light'
     // const d = new Date(parseTime('21:30')) // d = 현재시간
     // setCurrentTime(d)
-    setScreenSize(window.innerWidth)
+
     const timeTable = []
     const timeStringList = []
     let timeHolder = []
@@ -109,7 +108,7 @@ export default function YongsanBus() {
     // setUpcomingBus({ bus1: stringToTime(busTimeList[nextBusIndex]), bus2: stringToTime(busTimeList[nextBusIndex + 1]) })
 
     let arr = []
-    for (let i = 0; i < 4; i++) {
+    for (let i = 0; i < 5; i++) {
       arr.push(stringToTime(busTimeList[nextBusIndex + i]))
     }
     // setUpcomingBus([stringToTime(busTimeList[nextBusIndex]), stringToTime(busTimeList[nextBusIndex + 1])])
@@ -129,21 +128,25 @@ export default function YongsanBus() {
         </Head>
         <div className="w-full">
           <div className="flex h-screen flex-col">
-            <div className="flex h-full w-full flex-col place-content-center items-center space-y-8 bg-[#1DB807] px-4 pb-6 pt-12 dark:bg-slate-800 sm:px-[10vw] sm:pb-10 sm:pt-16">
+            <div className="flex h-full w-full flex-col place-content-center items-center space-y-8 bg-[#1DB807] px-[10vw] pb-8 pt-16 dark:bg-slate-800">
               {/* <p className="mx-auto py-2 text-2xl font-semibold md:py-4 md:text-4xl">용산03 시간표</p> */}
               <div className="mt-4 rounded-md bg-[#E8F9E8] px-4 py-4 md:mt-8">
                 <Image alt="용산03" src="/icon/yongsan_light.svg" width={0} height={0} sizes="100vw" className="justify-cente w-[480px]" />
               </div>
               {/* <Image alt="용산03" src="/icon/yongsan_white.svg" width={0} height={0} sizes="100vw" className="w-[360px] justify-center" /> */}
 
-              <main className="mx-auto flex w-full flex-col place-content-center items-center pt-2 text-sm text-white sm:text-base md:pt-4 md:text-2xl">
-                <div className="flex place-content-center items-center space-x-5 md:space-x-16">
+              <main className="mx-auto flex w-full flex-col place-content-center items-center pt-2 text-base text-white md:pt-4 md:text-2xl">
+                <div className="flex place-content-center items-center space-x-6 md:space-x-16">
+                  {/* <div className="flex w-fit flex-col place-content-center items-center">
+                    <p>현재시간</p>
+                    <p>{currentTime}</p>
+                  </div> */}
                   <div className="flex w-fit text-center font-bold">
                     <p className="text-[#E8F9E8]">
                       다음 하얏트 출발
                       <br />
                       <span className="text-white">
-                        {getTimeDiff(stringToTime(currentTime), upcomingBus[0])}분 후 <span className="">({new Date(upcomingBus[0]).toTimeString().substring(0, 5)})</span>
+                        {getTimeDiff(stringToTime(currentTime), upcomingBus[0])}분 후 <span className="text-sm md:text-lg">({new Date(upcomingBus[0]).toTimeString().substring(0, 5)})</span>
                       </span>
                     </p>
                   </div>
@@ -152,14 +155,14 @@ export default function YongsanBus() {
                       그 다음 하얏트 출발
                       <br />
                       <span className="text-white">
-                        {getTimeDiff(stringToTime(currentTime), upcomingBus[1])}분 후 <span className="">({new Date(upcomingBus[1]).toTimeString().substring(0, 5)})</span>
+                        {getTimeDiff(stringToTime(currentTime), upcomingBus[1])}분 후 <span className="text-sm md:text-lg">({new Date(upcomingBus[1]).toTimeString().substring(0, 5)})</span>
                       </span>
                     </p>
                   </div>
                 </div>
               </main>
             </div>
-            <div className="mx-auto w-screen px-[6vw] py-12 dark:bg-slate-700 sm:py-16 md:px-[15vw]">
+            <div className="mx-auto w-screen px-[6vw] py-16 dark:bg-slate-600 md:px-[20vw]">
               <div className="mx-auto flex w-full flex-col place-content-center items-center text-center text-xl font-bold md:text-3xl">
                 용산03 도착정보
                 <br />
@@ -170,7 +173,7 @@ export default function YongsanBus() {
                   하얏트호텔 → 남영 방향입니다. (경리단길 하행선 전용 시간표)
                   {/* <br />* 이 시간표는 용산03 공식 출발 시간표를 기준으로 제작되었습니다. */}
                 </p>
-                <TableSchedule upcomingBus={upcomingBus} screenSize={screenSize} />
+                <TableSchedule upcomingBus={upcomingBus} />
                 <p className="pb-2 pt-2 text-right text-xs font-semibold md:text-sm">
                   * 본 시간표는 용산03 출발 시간표를 기준으로 제작되었습니다
                   <br /> * 운행 지연 등의 사유로 실제 도착시간에 차이가 있을 수 있습니다
@@ -184,52 +187,36 @@ export default function YongsanBus() {
   )
 }
 
-function TableSchedule({ upcomingBus, screenSize }) {
+function TableSchedule({ upcomingBus }) {
   // const now = new Date(parseTime('21:30'))
   const now = new Date()
-  // console.log('screenSize', screenSize)
 
   return (
     <>
       <table className="h-full w-[100%] table-fixed divide-y divide-gray-200 rounded dark:divide-gray-700">
         {/* <DashboardHeader />
         <DashboardBody upcomingBus={upcomingBus} /> */}
-        <thead>
-          {stations.map((station, i) => {
-            return (
-              <tr key={`row${i}`} className="text-[13px] hover:bg-slate-50 dark:hover:bg-slate-600 sm:text-sm md:text-base">
-                {/* <td className="w-[25%] bg-white text-center font-bold dark:bg-slate-900 md:pl-10 md:pr-4 md:text-[15px]"> */}
-                <td className="md:px6 w-[22%] border bg-gray-50 text-center font-bold dark:bg-slate-900 md:w-[20%]">
-                  {screenSize < 768 && station.str1 ? (
+        <thead className="bg-gray-200/70 bg-white text-xs font-bold dark:bg-slate-900 md:text-base">
+          <tr>
+            {stations.map((station, i) => {
+              return (
+                <th key={i} scope="col" className={`w-[20%] px-1 py-2 text-left text-center rtl:text-right dark:text-white md:pl-10 md:pr-4 ${[2, 3].includes(i) && ''}`}>
+                  {station.str1 ? (
                     <>
-                      <p className={`${[2, 3].includes(i) ? '' : ''}`}>
+                      <p className={`text-[12px] md:text-base ${[2, 3].includes(i) ? '' : ''}`}>
                         {station.str1} <br /> {station.str2}
                       </p>
                     </>
                   ) : (
                     station.name
                   )}
-                </td>
-                {/* <td className="md:px6 w-[25%] border bg-white text-center font-bold dark:bg-slate-900 md:text-[15px]">{station.name}</td> */}
-
-                {upcomingBus.map((bus, i) => {
-                  let busArrivalTime = addMinutes(new Date(bus), station.leadTime) // 다음 버스 출발시간 + 각 정류장까지 도달하는 시간(leadTime)을 더해줌
-                  return (
-                    <td key={i} className={`md:px6 w-[26%] border px-1 py-2.5 text-center text-[13px] text-red-500 dark:text-rose-500 sm:text-sm md:w-[20%] md:text-base ${[3].includes(i) && screenSize < 768 && 'hidden'}`}>
-                      {getTimeDiff(now, bus) + station.leadTime}분 뒤<br />
-                      <p className="flex w-full place-content-center text-xs text-gray-500 dark:text-gray-300 sm:text-sm md:text-[15px]">
-                        ({shortenTime(busArrivalTime)}
-                        <span className="hidden md:block">&nbsp;도착</span>)
-                      </p>
-                    </td>
-                  )
-                })}
-              </tr>
-            )
-          })}
+                </th>
+              )
+            })}
+          </tr>
         </thead>
-        {/* <tbody className="divide-y divide-gray-200 bg-white dark:divide-gray-700 dark:bg-gray-800">
-          <td className="w-[20%] py-3.5 pl-6 pr-4 text-sm font-medium text-gray-700">다음 버스 도착</td>
+        <tbody className="divide-y divide-gray-200 bg-white dark:divide-gray-700 dark:bg-gray-800">
+          {/* <td className="w-[20%] py-3.5 pl-6 pr-4 text-sm font-medium text-gray-700">다음 버스 도착</td> */}
           {upcomingBus.map((bus, i) => {
             return (
               <tr key={`row${i}`} className="hover:bg-slate-50 dark:hover:bg-slate-600">
@@ -238,6 +225,7 @@ function TableSchedule({ upcomingBus, screenSize }) {
                   return (
                     <td key={i} className={`w-[20%] px-1 py-2.5 text-center text-xs text-red-600 dark:text-red-500 md:pl-10 md:pr-4 md:text-[15px] ${[2, 3].includes(i) && ''}`}>
                       {getTimeDiff(now, bus) + station.leadTime}분 뒤<br />
+                      {/*  */}
                       <p className="flex w-full place-content-center text-[12px] text-gray-500 dark:text-gray-300 md:text-sm">
                         ({shortenTime(busArrivalTime)}
                         <span className="hidden md:block">&nbsp;도착</span>)
@@ -248,7 +236,7 @@ function TableSchedule({ upcomingBus, screenSize }) {
               </tr>
             )
           })}
-        </tbody> */}
+        </tbody>
       </table>
     </>
   )
