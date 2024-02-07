@@ -219,7 +219,7 @@ function TableSchedule({ upcomingBus, screenSize }) {
                       {getTimeDiff(now, bus) + station.leadTime}분 뒤<br />
                       <p className="flex w-full place-content-center text-[13px] text-gray-500 dark:text-gray-300 sm:text-sm md:text-[15px]">
                         ({shortenTime(busArrivalTime)}
-                        <span className="hidden md:block">&nbsp;도착</span>)
+                        <span className="hidden md:block">&nbsp;{station.name.includes('하얏트') ? '출발' : '도착'}</span>)
                       </p>
                     </td>
                   )
