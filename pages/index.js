@@ -143,7 +143,7 @@ export default function YongsanBus() {
                       다음 하얏트 출발
                       <br />
                       <span className="text-white">
-                        {getTimeDiff(stringToTime(currentTime), upcomingBus[0])}분 후 <span className="">({new Date(upcomingBus[0]).toTimeString().substring(0, 5)})</span>
+                        {getTimeDiff(new Date(), upcomingBus[0])}분 후 <span className="">({new Date(upcomingBus[0]).toTimeString().substring(0, 5)})</span>
                       </span>
                     </p>
                   </div>
@@ -152,7 +152,7 @@ export default function YongsanBus() {
                       그 다음 하얏트 출발
                       <br />
                       <span className="text-white">
-                        {getTimeDiff(stringToTime(currentTime), upcomingBus[1])}분 후 <span className="">({new Date(upcomingBus[1]).toTimeString().substring(0, 5)})</span>
+                        {getTimeDiff(new Date(), upcomingBus[1])}분 후 <span className="">({new Date(upcomingBus[1]).toTimeString().substring(0, 5)})</span>
                       </span>
                     </p>
                   </div>
@@ -346,7 +346,7 @@ function formatTime(hour, minute) {
 function parseTime(timeString) {
   if (timeString == '') return null
 
-  var time = timeString.match(/(\d+)(:(\d\d))?\s*(p?)/i)
+  const time = timeString.match(/(\d+)(:(\d\d))?\s*(p?)/i)
   if (time == null) return null
 
   var hours = parseInt(time[1], 10)
@@ -355,7 +355,7 @@ function parseTime(timeString) {
   } else {
     hours += hours < 12 && time[4] ? 12 : 0
   }
-  var d = new Date()
+  const d = new Date()
   d.setHours(hours)
   d.setMinutes(parseInt(time[3], 10) || 0)
   d.setSeconds(0, 0)
