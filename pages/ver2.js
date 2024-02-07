@@ -6,8 +6,6 @@ import { formatDate } from 'utils/dateUtils'
 import Layout from '/components/layout'
 import Image from 'next/image'
 
-const testTime = '23:00'
-
 export default function YongsanBus() {
   const [startTime, setStartTime] = useState(5) // 첫 버스가 출발하는 시간: 오전 5시
   const [busTimeTable, setBusTimeTable] = useState([])
@@ -19,7 +17,7 @@ export default function YongsanBus() {
 
   useEffect(() => {
     // localStorage.theme = 'light'
-    // const d = new Date(parseTime(testTime)) // d = 현재시간
+    // const d = new Date(parseTime('21:30')) // d = 현재시간
     // setCurrentTime(d)
     setScreenSize(window.innerWidth)
     const timeTable = []
@@ -42,7 +40,7 @@ export default function YongsanBus() {
 
     setBusTimeTable(timeTable)
     setBusTimeList(timeStringList)
-    initTimeData()
+    // initTimeData()
   }, [])
 
   useEffect(() => {
@@ -51,8 +49,8 @@ export default function YongsanBus() {
 
   useEffect(() => {
     if (upcomingBus === []) return
-    const now = new Date() // 여기
-    // const now = new Date(parseTime(testTime))
+    // const now = new Date() // 여기
+    const now = new Date(parseTime('23:04'))
     const bus1 = new Date(upcomingBus.bus1)
     const bus2 = new Date(upcomingBus.bus2)
 
@@ -62,35 +60,34 @@ export default function YongsanBus() {
   /** 화면에 보여지는 현재시간을 가져옴 */
   function initTimeData() {
     // console.log('new Date', new Date())
-    let t = new Date().toTimeString().substring(0, 8)
-    // let t = new Date(parseTime(testTime)).toTimeString().substring(0, 8) // 여기
+    // let t = new Date().toTimeString().substring(0, 8)
+    let t = new Date(parseTime('23:04')).toTimeString().substring(0, 8) // 여기
     setCurrentTime(t)
     findNextBus() // 다시 켜야함
     // onetimeFind()
   }
 
   /** 1초마다 현재시간 새로고침 */
-  // setInterval(initTimeData, 1000)
+  setInterval(initTimeData, 1000)
 
   // function onetimeFind() {
   //   if (busTimeTable.length === 0 || busTimeList.length === 0) return // busTimeTable 또는 busTimeList가 아직 생성되지 않았다면 break. 문제없는 경우 아래 코드로 계속 진행함
-  //   // const d = new Date() // d = 현재시간
-  //   const d = new Date(parseTime(testTime)) // d = 현재시간
+  // const d = new Date() // d = 현재시간
+  const d = new Date(parseTime('23:04')) // d = 현재시간
 
   //   const nextBusIndex = busTimeList.findIndex((time) => new Date(parseTime(time)).valueOf() > d.valueOf())
   //   console.log('nextBusIndex', nextBusIndex)
   //   console.log(`Next Bus1 Time: ${busTimeList[nextBusIndex]} (Index #: ${nextBusIndex})`)
   //   console.log(`Next Bus2 Time: ${busTimeList[nextBusIndex + 1]} (Index #: ${nextBusIndex + 1})`)
 
-  //   setUpcomingBus({ bus1: stringToTime(busTimeList[nextBusIndex]), bus2: stringToTime(busTimeList[nextBusIndex + 1]) })
+  //   // setUpcomingBus({ bus1: stringToTime(busTimeList[nextBusIndex]), bus2: stringToTime(busTimeList[nextBusIndex + 1]) })
   // }
 
   /** 다음 버스가 언제 출발하는지 리턴해주는 함수 */
   function findNextBus() {
     if (busTimeTable.length === 0 || busTimeList.length === 0) return // busTimeTable 또는 busTimeList가 아직 생성되지 않았다면 break. 문제없는 경우 아래 코드로 계속 진행함
-
-    const d = new Date() // d = 현재시간
-    // const d = new Date(parseTime(testTime)) // d = 임의의 시간
+    // const d = new Date() // d = 현재시간
+    const d = new Date(parseTime('23:04')) // d = 임의의 시간
 
     /**
      * 핵심: Date.prototype.valueOf()를 사용하여 Date -> Numerical value로 변환해줌.
@@ -106,31 +103,14 @@ export default function YongsanBus() {
      * (i.e. 출발할 버스 중에서 현재시간으로부터 가장 가까운 버스의 인덱스를 찾아줌)
      */
     const nextBusIndex = busTimeList.findIndex((time) => new Date(stringToTime(time)).valueOf() > d.valueOf())
-
-    if (nextBusIndex < 0) return // 다음 버스가 없다는 뜻
-
-    console.log('nextBusIndex', nextBusIndex)
+    // console.log('nextBusIndex', nextBusIndex)
     // console.log(`Next Bus Time: ${busTimeList[nextBusIndex]} (Index #: ${nextBusIndex})`)
     // setUpcomingBus({ bus1: stringToTime(busTimeList[nextBusIndex]), bus2: stringToTime(busTimeList[nextBusIndex + 1]) })
 
     let arr = []
-    console.log('busTimeList.length - nextBusIndex', busTimeList.length - nextBusIndex)
-    const numBusLeft = busTimeList.length - nextBusIndex
-
-    // 현재 앞으로 4개의 버스를 보여주고 있는데, 막차 쯤에는 1-2개만 버스가 남아있기 때문에
-    // 이렇게 해주지 않으면 에러가 난다
-    if (numBusLeft < 4) {
-      for (let i = 0; i < numBusLeft; i++) {
-        arr.push(stringToTime(busTimeList[nextBusIndex + i]))
-      }
-    } else {
-      for (let i = 0; i < 4; i++) {
-        arr.push(stringToTime(busTimeList[nextBusIndex + i]))
-      }
+    for (let i = 0; i < 4; i++) {
+      arr.push(stringToTime(busTimeList[nextBusIndex + i]))
     }
-    // for (let i = 0; i < 4; i++) {
-    //   arr.push(stringToTime(busTimeList[nextBusIndex + i]))
-    // }
     // setUpcomingBus([stringToTime(busTimeList[nextBusIndex]), stringToTime(busTimeList[nextBusIndex + 1])])
     setUpcomingBus(arr)
   }
@@ -204,8 +184,8 @@ export default function YongsanBus() {
 }
 
 function TableSchedule({ upcomingBus, screenSize }) {
-  // const now = new Date(parseTime(testTime))
-  const now = new Date()
+  const now = new Date(parseTime('23:04'))
+  // const now = new Date()
   // console.log('screenSize', screenSize)
 
   return (
@@ -272,6 +252,54 @@ function TableSchedule({ upcomingBus, screenSize }) {
     </>
   )
 }
+
+// const DashboardHeader = () => {
+//   return (
+//     <>
+//       <thead className="text-xm bg-white font-bold dark:bg-gray-800 md:text-base">
+//         <tr>
+//           {stations.map((station, i) => {
+//             return (
+//               <th key={i} scope="col" className={`w-[20%] px-1 py-3.5 text-left text-center rtl:text-right dark:text-gray-400 md:pl-10 md:pr-4 ${[2, 3].includes(i) ? 'text-red-700 ' : 'text-gray-700'}`}>
+//                 {station.name}
+//               </th>
+//             )
+//           })}
+//         </tr>
+//       </thead>
+//     </>
+//   )
+// }
+
+// const DashboardBody = ({ upcomingBus }) => {
+//   // const now = new Date(parseTime('21:30'))
+//   const now = new Date()
+
+//   if (upcomingBus.length > 0) {
+//     return (
+//       <>
+//         {/* even:bg-slate-50 */}
+//         <tbody className="divide-y divide-gray-200 bg-white dark:divide-gray-700 dark:bg-gray-900">
+//           {/* <td className="w-[20%] py-3.5 pl-6 pr-4 text-sm font-medium text-gray-700">다음 버스 도착</td> */}
+//           {upcomingBus.map((bus, i) => {
+//             return (
+//               <tr key={`row${i}`} className="hover:bg-slate-50 ">
+//                 {stations.map((station, i) => {
+//                   let busArrivalTime = addMinutes(new Date(bus), station.leadTime) // 다음 버스 출발시간 + 각 정류장까지 도달하는 시간(leadTime)을 더해줌
+//                   return (
+//                     <td key={i} className="w-[20%] truncate px-1 py-2.5 text-center text-sm text-gray-500 dark:text-gray-300 md:pl-10 md:pr-4">
+//                       {getTimeDiff(now, bus) + station.leadTime}분 후 <br /> ({shortenTime(busArrivalTime)})
+//                     </td>
+//                   )
+//                 })}
+//               </tr>
+//             )
+//           })}
+//         </tbody>
+//       </>
+//     )
+//   }
+// }
 
 /** ex) '오후 23:00:00' -> '23:00'으로 줄여주는 함수 */
 function shortenTime(time) {
