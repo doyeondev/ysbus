@@ -103,7 +103,7 @@ export default function YongsanBus() {
      * 그래서 현재시간.valueOf() 다음으로 큰 valueOf()의 첫번째 인덱스를 찾아주면 된다.
      * (i.e. 출발할 버스 중에서 현재시간으로부터 가장 가까운 버스의 인덱스를 찾아줌)
      */
-    const nextBusIndex = busTimeList.findIndex((time) => new Date(parseTime(time)).valueOf() > d.valueOf())
+    const nextBusIndex = busTimeList.findIndex((time) => new Date(stringToTime(time)).valueOf() > d.valueOf())
     // console.log('nextBusIndex', nextBusIndex)
     // console.log(`Next Bus Time: ${busTimeList[nextBusIndex]} (Index #: ${nextBusIndex})`)
     // setUpcomingBus({ bus1: stringToTime(busTimeList[nextBusIndex]), bus2: stringToTime(busTimeList[nextBusIndex + 1]) })
