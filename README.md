@@ -1,38 +1,21 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Yongsan Bus Web App (용산03 경리단길)
 
-## Getting Started
+용산03 경리단길 지역의 버스 시간표를 실시간으로 확인할 수 있는 웹 애플리케이션입니다. 경리단길 인근 주민들에게 유용하게 사용되기를 바랍니다. (www.ysbus.co.kr - 자정에는 약간의 에러가 있음을 양해 부탁드립니다!)
 
-First, run the development server:
+---
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-```
+## Features
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+- **실시간 버스 도착 정보**: 현재 시간과 비교하여 다음 4개의 버스 도착 시간을 표시합니다.
+- **자동 갱신**: 현재 시간을 기준으로 실시간으로 다음 버스 도착 시간 갱신.
+- **다음 버스까지의 시간 계산**: 각 정류장에서 다음 버스까지 소요되는 시간을 표시해줍니다.
+- **화면 크기에 맞춘 UI**: 모바일 및 데스크탑 화면에 최적화된 UI를 제공합니다.
 
-You can start editing the page by modifying `pages/index.js`. The page auto-updates as you edit the file.
+---
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.js`.
+## 주요 기능
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
-
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+1. **시간표**: `용산03` 경리단길 버스의 출발 시간표와 도착 예시 시간표를 보여줍니다.
+2. **남은 시간**: 현재 시간과 다음 버스의 남은 시간 차이를 계산하여 실시간으로 보여줍니다.
+3. **정류장별 도착 시간**: 각 정류장에서 버스가 언제 도착하는지 예상 도착 시간을 계산하여 표시합니다.
+4. **자동 새로고침**: 1초마다 현재 시간을 새로 고침하여 가장 최신의 버스 도착 정보를 제공합니다.
