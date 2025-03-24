@@ -7,7 +7,7 @@ import Image from 'next/image'
 import { yongsan } from 'utils/busData'
 
 export default function YongsanBus() {
-  const [testMode, setTestMode] = useState(true)
+  const [testMode, setTestMode] = useState(false)
   const [testTime, setTestTime] = useState('11:55AM')
   const [startTime, setStartTime] = useState(5) // 첫 버스가 출발하는 시간: 오전 5시
   const [busTimeList, setBusTimeList] = useState([])
