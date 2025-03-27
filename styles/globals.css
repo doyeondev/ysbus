@@ -1,6 +1,38 @@
-@import 'tailwindcss/base';
-@import 'tailwindcss/components';
-@import 'tailwindcss/utilities';
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --foreground-rgb: 0, 0, 0;
+  --background-start-rgb: 214, 219, 220;
+  --background-end-rgb: 255, 255, 255;
+}
+
+.dark {
+  --foreground-rgb: 255, 255, 255;
+  --background-rgb: 17, 24, 39;
+  color-scheme: dark;
+}
+
+body {
+  color: rgb(var(--foreground-rgb));
+  background: rgb(var(--background-rgb));
+}
+
+/* 다크모드 테이블 스타일 */
+.dark table {
+  border-color: rgb(55, 65, 81);
+}
+
+.dark td {
+  background-color: rgb(31, 41, 55);
+  color: rgb(209, 213, 219);
+}
+
+.dark th {
+  background-color: rgb(17, 24, 39);
+  color: rgb(229, 231, 235);
+}
 
 h1,
 h2,
